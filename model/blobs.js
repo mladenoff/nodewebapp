@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const blobSchema = new mongoose.Schema({
   name: String,
   badge: Number,

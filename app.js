@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var db = require('./model/db'),
-    blob = require('.model/blobs');
+    blob = require('./model/blobs');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
