@@ -10,10 +10,13 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "express": "~4.15.2",
+    "express-react-views": "^0.10.2",
     "jade": "~1.11.0",
     "method-override": "^2.3.9",
     "mongoose": "^4.11.8",
     "morgan": "~1.8.1",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
     "serve-favicon": "~2.4.2"
   }
 }
