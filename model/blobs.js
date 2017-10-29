@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const blobSchema = new mongoose.Schema({
   name: String,
   badge: Number,
-  dob: { type: Date, default: Date.new },
+  dob: { type: Date, default: Date.now() },
   isLoved: Boolean
 });
 

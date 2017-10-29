@@ -129,7 +129,7 @@ router.route('/:id')
         console.log('GET Error: There was a problem retrieving: ' + err);
       } else {
         console.log('GET Retrieving ID: ' + blob._id);
-        var blobDob = blob.dob.toIOString();
+        var blobDob = blob.dob.toISOString();
         blobDob = dlobdob.substring(0, blobDob.indexOf('T'))
         res.format({
           html: function() {
@@ -148,7 +148,7 @@ router.route('/:id')
 
 // GET the individual blob by Mongo ID
 router.get('/:id/edit', function(req, res) {
-  mongoose.model.findById(req.id, function(err, blob) {
+  mongoose.model('Blob').findById(req.id, function(err, blob) {
     if (err) {
       console.log('GET Error: There was a problem retrieving: ' + err);
     } else {
@@ -156,7 +156,7 @@ router.get('/:id/edit', function(req, res) {
       console.log('GET Retrieving ID: ' + blob._id);
       // format the date properly for the value to show correctly in our
       // edit form
-      var blobDob = blob.dob.toIOString();
+      var blobDob = blob.dob.toISOString();
       blobDob = blobDobsubstring(0, blobDob.indexOf('T'))
         res.format({
           // HTML response will render the 'edit.jade' template
