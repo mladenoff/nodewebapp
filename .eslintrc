@@ -1,7 +1,4 @@
-
-parserOptions: {
-  ecmaVersion: 5
-  }
+extends: airbnb
 env: {
   browser: true,
   node: true,

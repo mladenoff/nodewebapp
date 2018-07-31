@@ -1,15 +1,15 @@
-var express = require('express');
-var mongoose = require('mongoose'); // monogo connection
-var bodyParser = require('body-parser'); // parses information from POST
-var methodOverride = require('method-override'); // used to manipulate POST
+const express = require('express');
+const mongoose = require('mongoose'); // monogo connection
+const bodyParser = require('body-parser'); // parses information from POST
+const methodOverride = require('method-override'); // used to manipulate POST
 
-var router = express.Router();
+const router = express.Router();
 
 router.use(bodyParser.urlencoded({ extended: true }));
-router.use(methodOverride(function(req, res) {
+router.use(methodOverride((req, res) => {
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
     // look in urlencoded POST bodies and delete it
-    var method = req.body._method
+    const method = req.body._method
     delete req.body._method
     return method
   }
@@ -22,9 +22,9 @@ router.use(methodOverride(function(req, res) {
 
 router.route('/')
   // GET all blobs
-  .get(function(req, res, next) {
+  .get((req, res, next) => {
     // retrieve all blobs from Mongo
-    mongoose.model('Blob').find({}, function(err, blobs) { // TODO look up monogoose find method
+    mongoose.model('Blob').find({}, (err, blobs) => { // TODO look up monogoose find method
       if (err) {
         return console.error(err);
       } else {
@@ -49,61 +49,62 @@ router.route('/')
     });
   })
   // POST a new blob
-  .post(function(req, res) {
+  .post((req, res) => {
     // Get values from POST request. TODO FILL THIS IN
-    var name = req.body.name;
-    var badge = req.body.badge;
-    var dob = req.body.dob;
-    var company = req.body.company;
-    var isLoved = req.body.isLoved;
+    const name = req.body.name;
+    const badge = req.body.badge;
+    const dob = req.body.dob;
+    const company = req.body.company;
+    const isLoved = req.body.isLoved;
     // call the create function for our database
     mongoose.model('Blob').create({
-      name : name,
-      badge : badge,
-      dob : dob,
-      isLoved : isLoved
-    }, function(err, blob) {
-        if (err) {
-          res.send("There was a problem adding the information to the database.");
-        } else {
-          // Blob has been created
-          console.log('POST creating new blob: ' + blob);
-          res.format({
-            //HTML response will set the location and redirect back to the home page. You could also create a 'success' page if that's your thing
-            html: function() {
-              // If it worked, set the header so the address bar doesn't still say /adduser
-              res.location("blobs");
-              // And forward to success page
-              res.redirect("/blobs");
-
-            },
-            // JSON response will show the newly created blob
-            json: function() {
-              res.json(blob);
-            }
-          });
-        }
-    })
+      name,
+      badge,
+      dob,
+      isLoved,
+    }, (err, blob) => {
+      if (err) {
+        res.send('There was a problem adding the information to the database.');
+      } else {
+        // Blob has been created
+        console.log('POST creating new blob: ' + blob);
+        res.format({
+          // HTML response will set the location and redirect back to the
+          // home page. You could also create a 'success' page if that's
+          // your thing
+          html: function html() {
+            // If it worked, set the header so the address bar doesn't still say /adduser
+            res.location("'blobs'");
+            // And forward to success page
+            res.redirect('/blobs');
+          },
+          // JSON response will show the newly created blob
+          json: function json() {
+            res.json(blob);
+          },
+        });
+      }
+    });
   });
 
 // GET New Blob page
-router.get('/new', function(req, res) {
+router.get('/new', (req, res) => {
   res.render('blobs/new', { title: 'Add New Blob' });
 });
 
 // route middleware to validate :id
-router.param('id', function(req, res, next, id) {
+router.param('id', (req, res, next, id) => {
   // console.log('validating ' + id + ' exists');
   // find the ID in the Database
-  mongoose.model('Blob').findById(id, function(err, blob) {
+  mongoose.model('Blob').findById(id, (err, blob) => {
     // if it isn't found, we are going respond with 404
     if (err) {
-      console.log(id + ' was not found');
+      console.log(`${id} was not found`);
       res.status(404)
       var err = new Error('Not Found');
       err.status = 404;
       res.format({
-        html: function(){
+        html: function html(){
           next(err);
         },
         json: function() {
@@ -130,7 +131,7 @@ router.route('/:id')
       } else {
         console.log('GET Retrieving ID: ' + blob._id);
         var blobDob = blob.dob.toISOString();
-        blobDob = dlobdob.substring(0, blobDob.indexOf('T'))
+        blobDob = blobDob.substring(0, blobDob.indexOf('T'))
         res.format({
           html: function() {
             res.render('blobs/show', {
@@ -157,7 +158,7 @@ router.get('/:id/edit', function(req, res) {
       // format the date properly for the value to show correctly in our
       // edit form
       var blobDob = blob.dob.toISOString();
-      blobDob = blobDobsubstring(0, blobDob.indexOf('T'))
+      blobDob = blobDob.substring(0, blobDob.indexOf('T'))
         res.format({
           // HTML response will render the 'edit.jade' template
           html: function() {
